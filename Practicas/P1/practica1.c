@@ -104,15 +104,6 @@ void getvideomode(void){
  **/
 void textcolor(int color){
     colortexto=color;
-    // union REGS inregs, outregs;
-
-    // inregs.h.ah=0x09;
-    // inregs.h.al=97;     // 'a'
-    // inregs.h.bl=color;
-    // inregs.h.bh=0x00;
-    // inregs.x.cx=10;     // numero de repeticiones;
-
-    // int86(0x10, &inregs, &outregs);
 }
 /**
  textbackground(): modifica el color de fondo con que se mostrarán los caracteres
@@ -159,12 +150,10 @@ void cputchar(int c){
 
     inregs.h.ah = 0x09;
     inregs.h.al = c;
-    // inregs.h.dl = c;
     inregs.h.bl = colorback << 4 | colortexto;
     inregs.h.bh = 0x00;
     inregs.x.cx = 1;
     int86(0x10, &inregs, &outregs);
-    // return;
 }
 /**
  setcursortype(): fijar el aspecto del cursor, debe admitir tres valores: INVISIBLE, NORMAL y GRUESO.
@@ -214,7 +203,6 @@ void mi_printf(const char *str){
     i=0;
 }
 
-int tmp;
 /**
  recuadro(): dibuja un recuadro en la pantalla en modo texto. Recibirá como parámetros las coordenadas superior izquierda e inferior derecha del recuadro, el color de primer plano y el color de fondo.
  **/
@@ -227,14 +215,11 @@ void recuadro(int x1,int y1, int x2, int y2,int cp, int cf){
     j=y1;
     for(i; i<=x2;i++){
         for(j;j<=y2;j++){
-            
             pixel(i,j,cp);
         }
         j=y1;
-        //printf("\n");
-        
-    }
-    
+        //printf("\n");   
+    }    
 }
 /**
  main(): funcion principal deonde probamos todas las funciones
@@ -243,6 +228,7 @@ int main(){
     
     mi_printf("Pulsa una tecla: ");
     getche();
+
     mi_printf("Cursor invisible: ");
     setcursortype(0);
     pausa();
@@ -290,7 +276,7 @@ int main(){
     
     pausa();
     mi_printf("imprimiendo rectangulo que empieza en el pixel (10,10) y termina en (50,60)");
-    recuadro(30,20,50,60,1,3);
+    recuadro(30,20,50,60,1,2);
     
 
     pausa();
